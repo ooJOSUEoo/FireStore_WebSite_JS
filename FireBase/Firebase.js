@@ -1,5 +1,6 @@
 //firestore
 getPost();
+setPost();
 
 //post
 
@@ -36,5 +37,31 @@ function getPost(){
         }else{
             setupPosts([]);
         }
+    })
+}
+
+function setPost(){
+    const postForm = document.querySelector('#post-form');
+
+    postForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const title = document.querySelector('#inp-title').value;
+        const description = document.querySelector('#inp-description').value;
+
+        fs.collection('posts').add({
+            title: title,
+            description: description,
+            owner: auth.currentUser.uid,
+            createdAt: new Date()
+        }).then(() => {
+            postForm.reset();
+            $('#formModal').modal('hide');
+            $('.modal-backdrop.fade.show').addClass('d-none');
+            getPost();
+        }).error(error => {
+            console.log(error);
+        })
+
     })
 }
