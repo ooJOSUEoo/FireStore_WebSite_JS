@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <title>Auth con FireBase</title>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">Auth</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link d-none logged-out" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">LogIn</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link d-none logged-out" href="#" data-bs-toggle="modal" data-bs-target="#signupModal">SignUp</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link d-none logged-in" href="#" id="logout">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTEN -->
+    <div class="container p-4">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <ul class="list-group" id="posts">
+
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal SignUp-->
+    <div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">SignUp</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="signup-form">
+                        <div class="form-floating mb-3">
+                            <input id="signup-email" type="email" class="form-control" id="floatingInput"
+                                placeholder="-" required>
+                            <label for="floatingInput">Email</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input id="signup-password" type="password" class="form-control" id="floatingInput"
+                                placeholder="-" required>
+                            <label for="floatingInput">Password</label>
+                        </div>
+                        <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">SignUp</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Login-->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">SignIn</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="login-form">
+                        <div class="form-floating mb-3">
+                            <input id="login-email" type="email" class="form-control" id="floatingInput" placeholder="-"
+                                required>
+                            <label for="floatingInput">Email</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input id="login-password" type="password" class="form-control" id="floatingInput"
+                                placeholder="-" required>
+                            <label for="floatingInput">Password</label>
+                        </div>
+                        <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-secondary">LogIn</button>
+                            <button type="button" class="btn btn-light d-flex border-dark border" id="googleLogin">
+                                <img width="5%" class="me-2" src="https://storage.googleapis.com/support-kms-prod/ZAl1gIwyUsvfwxoW9ns47iJFioHXODBbIkrK" alt="LogIn with Google">
+                                 LogIn with Google
+                            </button>
+                            <button type="button" class="btn btn-primary d-flex border-dark border" id="facebookLogin">
+                                <img width="5%" class="me-2" src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/1024px-Facebook_Logo_%282019%29.png" alt="LogIn with Facebook">
+                                 LogIn with Facebook
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="apiKeys.js"></script>
+
+    <!-- Firebase -->
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+
+
+
+
+    <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: apiKeyFB,
+            authDomain: "sitiowebfbjs.firebaseapp.com",
+            projectId: "sitiowebfbjs",
+            storageBucket: "sitiowebfbjs.appspot.com",
+            messagingSenderId: "694331535710",
+            appId: appIdFB,
+            measurementId: "G-PQLXN3QHDY"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const fs = firebase.firestore();
+    </script>
+
+    <!-- CUSTOM CODE -->
+    <script src="FireBase/main.js"></script>
+
+</body>
+
+</html>

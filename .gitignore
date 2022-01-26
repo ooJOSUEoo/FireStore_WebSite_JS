@@ -1,0 +1,3 @@
+# Ignora los archivos relacionados a API keys
+apiKeys.js
+package-lock.json
