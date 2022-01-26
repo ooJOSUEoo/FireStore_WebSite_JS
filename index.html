@@ -13,7 +13,7 @@
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="#">Auth</a>
+            <a class="navbar-brand" href="#">Firestore</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -36,6 +36,7 @@
 
     <!-- MAIN CONTEN -->
     <div class="container p-4">
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#formModal" id="addPost">+ Añadir nuevo post</button>
         <div class="row">
             <div class="col-md-6 offset-md-3">
                 <ul class="list-group" id="posts">
@@ -114,6 +115,40 @@
     </div>
 
 
+    <!-- Modal FormPost-->
+    <div class="modal fade" id="formModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="formModalLabel">Nuevo post</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="post-form">
+                        <div class="form-floating mb-3">
+                            <input id="inp-title" type="text" class="form-control" id="floatingInput" placeholder="-"
+                                required>
+                            <label for="floatingInput">Titulo</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input id="inp-description" type="text" class="form-control" id="floatingInput"
+                                placeholder="-" required>
+                            <label for="floatingInput">Descripción</label>
+                        </div>
+                        <div class="mb-3">
+                            <label for="formFile" class="form-label">Imagen del post</label>
+                            <input class="form-control" type="file" id="inp-img" required>
+                          </div>
+                        <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-secondary">Crear</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="js/jquery-3.6.0.min.js"></script>
     <script src="js/bootstrap.bundle.min.js"></script>
     <script src="js/popper.min.js"></script>
@@ -148,7 +183,8 @@
     </script>
 
     <!-- CUSTOM CODE -->
-    <script src="FireBase/main.js"></script>
+    <script src="FireBase/Auth.js"></script>
+    <script src="FireBase/Firebase.js"></script>
 
 </body>
 
