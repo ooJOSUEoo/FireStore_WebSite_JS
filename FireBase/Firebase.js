@@ -2,7 +2,6 @@
 getPosts();
 clickFormPost();
 
-
 //post
 
 function getPosts(){
@@ -12,9 +11,12 @@ function getPosts(){
             data.forEach(doc => {
                 const post = doc.data();
                 const li = `
-                    <li class"list-group-item list-group-item-action" style="list-style: none;">
-                        <a id="${doc.id}" class="post" style="text-decoration:none; color:black; cursor:pointer;">
-                            <div class="card card-body mb-3">
+                    <li class="list-group-item list-group-item-action position-relative" style="list-style: none;">
+                        <div class="position-absolute end-0 me-3" style="z-index: 10">
+                            <button class="btn btn-danger btn-sm ms-auto" id="delete">Borrar</button>
+                        </div>
+                        <a id="${doc.id}" class="post" style="text-decoration:none; color:black; cursor:pointer; z-index: 5">
+                            <div class="card card-body mb-3 border-0">
                                 <h4>${post.title}</h4>
                                 <small>${post.description}</small>
                             </div>
@@ -25,6 +27,8 @@ function getPosts(){
             });
             $('#posts').html(html);
             getPostID();
+            deletePost();
+
         }else{
             $('#posts').html(`<p class="text-center">Logeate para ver las publicaciones</p>`);
         }
@@ -114,5 +118,18 @@ function editPost(){
             console.log(error);
         })
 
+    })
+}
+
+function deletePost(){
+    $('#delete').on('click', (e) => {
+        if(confirm('¿Estás seguro de eliminar esta publicación?')){
+            fs.collection('posts').doc(e.target.parentElement.parentElement.children[1].id).delete().then(() => {
+                console.log('Publicación eliminada');
+                getPosts();
+            }).catch(error => {
+                console.log(error);
+            })
+        }
     })
 }
