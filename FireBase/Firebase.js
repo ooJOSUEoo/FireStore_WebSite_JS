@@ -4,9 +4,9 @@ clickFormPost();
 
 //post
 
-function getPosts(){
+function getPosts() {
     const setupPosts = data => {
-        if(data.length){
+        if (data.length) {
             let html = '';
             data.forEach(doc => {
                 const post = doc.data();
@@ -29,23 +29,27 @@ function getPosts(){
             getPostID();
             deletePost();
 
-        }else{
+        } else {
             $('#posts').html(`<p class="text-center">Logeate para ver las publicaciones</p>`);
         }
     }
 
     auth.onAuthStateChanged(user => {
-        if(user){
+        if (user) {
             fs.collection('posts').get().then(snapshot => {
                 setupPosts(snapshot.docs);
             })
-        }else{
+            .catch(error => {
+                console.log(error);
+                showError(error)
+            })
+        } else {
             setupPosts([]);
         }
     })
 }
 
-function clickFormPost(){
+function clickFormPost() {
     $('#addPost').on('click', (e) => {
         $('#post-form').trigger('reset');
         $('#idDoc').val('');
@@ -55,8 +59,9 @@ function clickFormPost(){
     setPost();
 
 }
-function setPost(){
-    if($('#idDoc').val() == ''){
+
+function setPost() {
+    if ($('#idDoc').val() == '') {
         $('#btnPostC').on('click', (e) => {
             e.preventDefault();
 
@@ -73,13 +78,14 @@ function setPost(){
                 getPosts();
             }).catch(error => {
                 console.log(error);
+                showError(error)
             })
 
         })
-    }else{}
+    } else {}
 }
 
-function getPostID(){
+function getPostID() {
     const post = document.querySelectorAll('.post');
     post.forEach(item => {
         item.addEventListener('click', (e) => {
@@ -93,13 +99,17 @@ function getPostID(){
                 $('#btnPostE').removeClass('d-none');
                 $('#btnPostC').addClass('d-none');
                 $('#formModalLabel').html('Editar Post');
+                editPost();
             })
-            editPost();
-        })   
+            .catch(error => {
+                $('#errorModal').modal('show');
+                $('#erroDescrip').val(error.message);
+            })
+        })
     })
 }
 
-function editPost(){
+function editPost() {
     $('#btnPostE').on('click', (e) => {
         e.preventDefault();
 
@@ -116,20 +126,24 @@ function editPost(){
             getPosts();
         }).catch(error => {
             console.log(error);
+            showError(error)
         })
 
     })
 }
 
-function deletePost(){
-    $('#delete').on('click', (e) => {
-        if(confirm('¿Estás seguro de eliminar esta publicación?')){
-            fs.collection('posts').doc(e.target.parentElement.parentElement.children[1].id).delete().then(() => {
-                console.log('Publicación eliminada');
-                getPosts();
-            }).catch(error => {
-                console.log(error);
-            })
-        }
+function deletePost() {
+    document.querySelectorAll('#delete').forEach(item => {
+        item.addEventListener('click', (e) => {
+            if (confirm('¿Estás seguro de eliminar esta publicación?')) {
+                fs.collection('posts').doc(e.target.parentElement.parentElement.children[1].id).delete().then(() => {
+                    console.log('Publicación eliminada');
+                    getPosts();
+                }).catch(error => {
+                    console.log(error);
+                    showError(error)
+                })
+            }
+        })
     })
 }

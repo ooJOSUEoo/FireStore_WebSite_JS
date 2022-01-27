@@ -28,9 +28,7 @@ function googleLogIn(){
             })
             .catch(error => {
                 console.log(error);
-                if(error.code === 'auth/account-exists-with-different-credential'){
-                    alert('Este usuario ya esta registrado con otra cuenta');
-                }
+                showError(error)
             })
     })
 }
@@ -52,9 +50,7 @@ function facebookLogIn(){
             })
             .catch(error => {
                 console.log(error);
-                if(error.code === 'auth/account-exists-with-different-credential'){
-                    alert('Este usuario ya esta registrado con otra cuenta');
-                }
+                showError(error)
             })
     })
 }
@@ -80,6 +76,7 @@ function signup(){
                 const errorMessage = error.message;
                 console.log(errorCode);
                 console.log(errorMessage);
+                showError(error)
                 // ..
             });
     });
@@ -104,6 +101,7 @@ function login(){
                 const errorMessage = error.message;
                 console.log(errorCode);
                 console.log(errorMessage);
+                showError(error)
                 // ..
             });
     })
@@ -121,6 +119,7 @@ function logout(){
             .catch((error) => {
                 // An error happened.
                 console.log(error);
+                showError(error)
             });
     })
 }

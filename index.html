@@ -9,7 +9,7 @@
     <title>Auth con FireBase</title>
 </head>
 
-<body class="bg-secondary">
+<body class="bg-success">
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
@@ -151,6 +151,23 @@
             </div>
         </div>
     </div>
+    
+    <!-- Modal Errors-->
+    <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="errorModalLabel">Error</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="erroDescrip"></p>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <script src="js/jquery-3.6.0.min.js"></script>
     <script src="js/bootstrap.bundle.min.js"></script>
@@ -187,6 +204,7 @@
     </script>
 
     <!-- CUSTOM CODE -->
+    <script src="FireBase/funtions.js"></script>
     <script src="FireBase/Auth.js"></script>
     <script src="FireBase/Firebase.js"></script>
 
