@@ -13,10 +13,7 @@ logout()
 
 //auth google
 function googleLogIn(){
-    const loginForm = document.querySelector('#login-form');
-    const googleBtn = document.getElementById('googleLogin');
-
-    googleBtn.addEventListener('click', (e) => {
+    $('#googleLogin').on('click', (e) => {
         e.preventDefault();
 
         const provider = new firebase.auth.GoogleAuthProvider();
@@ -24,7 +21,7 @@ function googleLogIn(){
         auth.signInWithPopup(provider)
             .then(result => {
                 console.log(result);
-                loginForm.reset();
+                $('#loginForm').trigger('reset');
                 // close the modal
                 $('#loginModal').modal('hide');
                 $('.modal-backdrop.fade.show').addClass('d-none');
@@ -40,10 +37,7 @@ function googleLogIn(){
 
 //auth facebook
 function facebookLogIn(){
-    const loginForm = document.querySelector('#login-form');
-    const facebookBtn = document.getElementById('facebookLogin');
-
-    facebookBtn.addEventListener('click', (e) => {
+    $('#facebookLogin').on('click', (e) => {
         e.preventDefault();
 
         const provider = new firebase.auth.FacebookAuthProvider();
@@ -51,7 +45,7 @@ function facebookLogIn(){
         auth.signInWithPopup(provider)
             .then(result => {
                 console.log(result);
-                loginForm.reset();
+                $('#loginForm').trigger('reset');
                 // close the modal
                 $('#loginModal').modal('hide');
                 $('.modal-backdrop.fade.show').addClass('d-none');
@@ -67,20 +61,16 @@ function facebookLogIn(){
 
 //auth email and password
 function signup(){
-    const signupForm = document.querySelector('#signup-form');
     //crear cuenta en firebase Email y contraseña
-    signupForm.addEventListener('submit', (e) => {
+    $('#signup-form').on('submit', (e) => {
         e.preventDefault();
 
-        const signupEmail = document.getElementById('signup-email').value;
-        const signupPassword = document.getElementById('signup-password').value;
-
         auth
-            .createUserWithEmailAndPassword( signupEmail, signupPassword)
+            .createUserWithEmailAndPassword($('#signup-email').val(), $('#signup-password').val())
             .then((userCredential) => {
                 // Signed in
                 //clear form
-                signupForm.reset();
+                $('#signup-form').trigger('reset');
                 // close the modal
                 $('#signupModal').modal('hide');
                 $('.modal-backdrop.fade.show').addClass('d-none');
@@ -96,20 +86,15 @@ function signup(){
 }
 
 function login(){
-    const loginForm = document.querySelector('#login-form');
-
-    loginForm.addEventListener('submit', (e) => {
+    $('#login-form').on('submit', (e) => {
         e.preventDefault();
 
-        const loginEmail = document.getElementById('login-email').value;
-        const loginPassword = document.getElementById('login-password').value;
-
         auth
-            .signInWithEmailAndPassword( loginEmail, loginPassword)
+            .signInWithEmailAndPassword($('#login-email').val(), $('#login-password').val())
             .then((userCredential) => {
                 // Signed in
                 //clear form
-                loginForm.reset();
+                $('#login-form').trigger('reset');
                 // close the modal
                 $('#loginModal').modal('hide');
                 $('.modal-backdrop.fade.show').addClass('d-none');
@@ -125,9 +110,7 @@ function login(){
 }
 
 function logout(){
-    const logout = document.getElementById('logout');
-
-    logout.addEventListener('click', (e) => {
+    $('#logout').on('click', (e) => {
         e.preventDefault();
 
         auth.signOut()

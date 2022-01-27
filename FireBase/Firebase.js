@@ -1,12 +1,11 @@
 //firestore
 getPosts();
-setPost();
+clickFormPost();
 
 
 //post
 
 function getPosts(){
-    const postList = document.getElementById('posts')
     const setupPosts = data => {
         if(data.length){
             let html = '';
@@ -24,10 +23,10 @@ function getPosts(){
                 `;
                 html += li;
             });
-            postList.innerHTML = html;
-            getPost();
+            $('#posts').html(html);
+            getPostID();
         }else{
-            postList.innerHTML = `<p class="text-center">Logeate para ver las publicaciones</p>`;
+            $('#posts').html(`<p class="text-center">Logeate para ver las publicaciones</p>`);
         }
     }
 
@@ -42,33 +41,36 @@ function getPosts(){
     })
 }
 
-function setPost(){
-    const postForm = document.querySelector('#post-form');
+function clickFormPost(){
+    $('#addPost').on('click', (e) => {
+        $('#post-form').trigger('reset');
+    });
+    setPost();
 
-    postForm.addEventListener('submit', (e) => {
+}
+function setPost(){
+    $('#post-form').on('submit', (e) => {
         e.preventDefault();
 
-        const title = document.querySelector('#inp-title').value;
-        const description = document.querySelector('#inp-description').value;
-
         fs.collection('posts').add({
-            title: title,
-            description: description,
+            title: $('#inp-title').val(),
+            description: $('#inp-description').val(),
             owner: auth.currentUser.uid,
             createdAt: new Date()
         }).then(() => {
-            postForm.reset();
+            $('#post-form').trigger('reset');
             $('#formModal').modal('hide');
             $('.modal-backdrop.fade.show').addClass('d-none');
-            getPost();
-        }).error(error => {
+            console.log('Publicación agregada');
+            getPosts();
+        }).catch(error => {
             console.log(error);
         })
 
     })
 }
 
-function getPost(){
+function getPostID(){
     const post = document.querySelectorAll('.post');
     post.forEach(item => {
         item.addEventListener('click', (e) => {
