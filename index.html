@@ -19,6 +19,14 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto me-auto">
+                    <li class="nav-item">
+                        <li class="nav-item d-flex align-items-center">
+                            <img src="" alt="" id="imgPhoto" style="width: 60px; border-radius: 50%;">
+                            <a class="nav-link d-none logged-in" href="#" id="userName" style="cursor: default;"></a>
+                        </li>
+                    </li>
+                </ul>
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
                         <a class="nav-link d-none logged-out" href="#" data-bs-toggle="modal"
@@ -58,7 +66,10 @@
                     <h5 class="modal-title" id="exampleModalLabel"><i class="fa-solid fa-user-plus"></i> SignUp</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body position-relative">
+                    <div class="progress mb-3">
+                        <div id="progressSignup" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
+                      </div>
                     <form id="signup-form">
                         <div class="form-floating mb-3">
                             <input id="signup-email" type="email" class="form-control" placeholder="-" required>
@@ -86,7 +97,10 @@
                     <h5 class="modal-title" id="exampleModalLabel"><i class="fa-duotone fa-door-open"></i> SignIn</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body position-relative">
+                    <div class="progress mb-3">
+                        <div id="progressLogin" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
+                      </div>
                     <form id="login-form">
                         <div class="form-floating mb-3">
                             <input id="login-email" type="email" class="form-control" placeholder="-" required>
@@ -128,6 +142,9 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+                    <div class="progress mb-3">
+                        <div id="progressPostform" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
+                      </div>
                     <form id="post-form">
                         <div class="form-floating mb-3">
                             <input id="inp-title" type="text" class="form-control" placeholder="-" required>
@@ -197,7 +214,7 @@
             storageBucket: "sitiowebfbjs.appspot.com",
             messagingSenderId: "694331535710",
             appId: appIdFB,
-            measurementId: "G-PQLXN3QHDY"
+            measurementId: "G-4EK7CZJERV"
         };
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);

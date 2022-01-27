@@ -66,13 +66,14 @@ function setPost() {
     if ($('#idDoc').val() == '') {
         $('#btnPostC').on('click', (e) => {
             e.preventDefault();
+            $('#btnPostC').attr('disabled', true);
             //subir imagen a storage
             
-            const file = document.getElementById('inp-img').files[0];
+            /*const file = document.getElementById('inp-img').files[0];
             const filePath = `images/${file.name}`;
             storageRef.child(filePath).put(file).then(snapshot => {
                 console.log('Imagen subida');
-            }).catch(error => {console.log(error.message);})
+            }).catch(error => {console.log(error.message);})*/
 
 
             //crear post en documento
@@ -83,9 +84,15 @@ function setPost() {
                 owner: auth.currentUser.uid,
                 createdAt: new Date()
             }).then(() => {
-                $('#post-form').trigger('reset');
-                $('#formModal').modal('hide');
-                $('.modal-backdrop.fade.show').addClass('d-none');
+                $('#progressPostform').width('100%');
+                setTimeout(() => {
+                    $('#btnPostC').attr('disabled', false);
+                    //clear form
+                    $('#post-form').trigger('reset');
+                    $('#formModal').modal('hide');
+                    $('.modal-backdrop.fade.show').addClass('d-none');
+                    $('#progressPostform').width('0%');
+                }, 1000);
                 console.log('Publicación agregada');
                 getPosts();
             }).catch(error => {
@@ -124,6 +131,7 @@ function getPostID() {
 function editPost() {
     $('#btnPostE').on('click', (e) => {
         e.preventDefault();
+        $('#btnPostE').attr('disabled', true);
 
         fs.collection('posts').doc($('#idDoc').val()).update({
             title: $('#inp-title').val(),
@@ -131,9 +139,15 @@ function editPost() {
             //owner: auth.currentUser.uid,
             //createdAt: new Date()
         }).then(() => {
-            $('#post-form').trigger('reset');
-            $('#formModal').modal('hide');
-            $('.modal-backdrop.fade.show').addClass('d-none');
+            $('#progressPostform').width('100%');
+            setTimeout(() => {
+                $('#btnPostE').attr('disabled', false);
+                //clear form
+                $('#post-form').trigger('reset');
+                $('#formModal').modal('hide');
+                $('.modal-backdrop.fade.show').addClass('d-none');
+                $('#progressPostform').width('0%');
+            }, 1000);
             console.log('Publicación editada');
             getPosts();
         }).catch(error => {
@@ -148,7 +162,9 @@ function deletePost() {
     document.querySelectorAll('#delete').forEach(item => {
         item.addEventListener('click', (e) => {
             if (confirm('¿Estás seguro de eliminar esta publicación?')) {
-                fs.collection('posts').doc(e.target.parentElement.parentElement.children[1].id).delete().then(() => {
+                const idDoc = e.target.parentElement.parentElement.children[1].id;
+                console.log(idDoc);
+                fs.collection('posts').doc(idDoc).delete().then(() => {
                     console.log('Publicación eliminada');
                     getPosts();
                 }).catch(error => {
