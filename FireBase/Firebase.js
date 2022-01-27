@@ -13,7 +13,9 @@ function getPosts() {
                 const li = `
                     <li class="list-group-item list-group-item-action position-relative" style="list-style: none;">
                         <div class="position-absolute end-0 me-3" style="z-index: 10">
-                            <button class="btn btn-danger btn-sm ms-auto" id="delete">Borrar</button>
+                            <button class="btn btn-danger btn-sm ms-auto" id="delete">
+                                <i class="fa-regular fa-trash"></i>
+                            </button>
                         </div>
                         <a id="${doc.id}" class="post" style="text-decoration:none; color:black; cursor:pointer; z-index: 5">
                             <div class="card card-body mb-3 border-0">

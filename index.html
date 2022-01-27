@@ -6,11 +6,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/all.css">
     <title>Auth con FireBase</title>
 </head>
 
 <body class="bg-success">
-
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
             <a class="navbar-brand" href="#">Firestore</a>
@@ -22,14 +22,14 @@
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
                         <a class="nav-link d-none logged-out" href="#" data-bs-toggle="modal"
-                            data-bs-target="#loginModal">LogIn</a>
+                            data-bs-target="#loginModal"><i class="fa-duotone fa-door-open"></i> LogIn</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link d-none logged-out" href="#" data-bs-toggle="modal"
-                            data-bs-target="#signupModal">SignUp</a>
+                            data-bs-target="#signupModal"><i class="fa-duotone fa-user-plus"></i> SignUp</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link d-none logged-in" href="#" id="logout">Logout</a>
+                        <a class="nav-link d-none logged-in" href="#" id="logout"><i class="fa-light fa-arrow-right-from-bracket"></i> Logout</a>
                     </li>
                 </ul>
             </div>
@@ -38,8 +38,9 @@
 
     <!-- MAIN CONTEN -->
     <div class="container p-4">
-        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#formModal" id="addPost">+ Añadir nuevo
-            post</button>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#formModal" id="addPost">
+            <i class="fa-solid fa-plus"></i>
+            Añadir nuevo post</button>
         <div class="row">
             <div class="col-md-6 offset-md-3">
                 <ul class="list-group" id="posts">
@@ -54,18 +55,18 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">SignUp</h5>
+                    <h5 class="modal-title" id="exampleModalLabel"><i class="fa-solid fa-user-plus"></i> SignUp</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form id="signup-form">
                         <div class="form-floating mb-3">
                             <input id="signup-email" type="email" class="form-control" placeholder="-" required>
-                            <label for="floatingInput">Email</label>
+                            <label for="floatingInput"><i class="fa-light fa-envelope"></i> Email</label>
                         </div>
                         <div class="form-floating mb-3">
                             <input id="signup-password" type="password" class="form-control" placeholder="-" required>
-                            <label for="floatingInput">Password</label>
+                            <label for="floatingInput"><i class="fa-solid fa-lock-keyhole"></i> Password</label>
                         </div>
                         <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
                         <div class="d-grid gap-2">
@@ -82,18 +83,18 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">SignIn</h5>
+                    <h5 class="modal-title" id="exampleModalLabel"><i class="fa-duotone fa-door-open"></i> SignIn</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form id="login-form">
                         <div class="form-floating mb-3">
                             <input id="login-email" type="email" class="form-control" placeholder="-" required>
-                            <label for="floatingInput">Email</label>
+                            <label for="floatingInput"><i class="fa-light fa-envelope"></i> Email</label>
                         </div>
                         <div class="form-floating mb-3">
                             <input id="login-password" type="password" class="form-control" placeholder="-" required>
-                            <label for="floatingInput">Password</label>
+                            <label for="floatingInput"><i class="fa-solid fa-lock-keyhole"></i> Password</label>
                         </div>
                         <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
                         <div class="d-grid gap-2">
@@ -123,7 +124,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="formModalLabel">Nuevo post</h5>
+                    <h5 class="modal-title" id="formModalLabel"><i class="fa-solid fa-plus"></i> Nuevo post</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -138,7 +139,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="formFile" class="form-label">Imagen del post</label>
-                            <input class="form-control" type="file" id="inp-img">
+                            <input class="form-control" type="file" id="inp-img" accept="image/*">
                         </div>
                         <input type="hidden" id="idDoc">
                         <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
@@ -157,7 +158,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="errorModalLabel">Error</h5>
+                    <h5 class="modal-title text-danger" id="errorModalLabel"><i class="fa-regular fa-circle-exclamation"></i> Error</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
