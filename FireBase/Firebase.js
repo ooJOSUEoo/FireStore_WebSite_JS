@@ -44,30 +44,35 @@ function getPosts(){
 function clickFormPost(){
     $('#addPost').on('click', (e) => {
         $('#post-form').trigger('reset');
+        $('#idDoc').val('');
+        $('#btnPostC').removeClass('d-none');
+        $('#btnPostE').addClass('d-none');
     });
     setPost();
 
 }
 function setPost(){
-    $('#post-form').on('submit', (e) => {
-        e.preventDefault();
+    if($('#idDoc').val() == ''){
+        $('#btnPostC').on('click', (e) => {
+            e.preventDefault();
 
-        fs.collection('posts').add({
-            title: $('#inp-title').val(),
-            description: $('#inp-description').val(),
-            owner: auth.currentUser.uid,
-            createdAt: new Date()
-        }).then(() => {
-            $('#post-form').trigger('reset');
-            $('#formModal').modal('hide');
-            $('.modal-backdrop.fade.show').addClass('d-none');
-            console.log('Publicación agregada');
-            getPosts();
-        }).catch(error => {
-            console.log(error);
+            fs.collection('posts').add({
+                title: $('#inp-title').val(),
+                description: $('#inp-description').val(),
+                owner: auth.currentUser.uid,
+                createdAt: new Date()
+            }).then(() => {
+                $('#post-form').trigger('reset');
+                $('#formModal').modal('hide');
+                $('.modal-backdrop.fade.show').addClass('d-none');
+                console.log('Publicación agregada');
+                getPosts();
+            }).catch(error => {
+                console.log(error);
+            })
+
         })
-
-    })
+    }else{}
 }
 
 function getPostID(){
@@ -80,8 +85,34 @@ function getPostID(){
                 const post = doc.data();
                 $('#inp-title').val(post.title);
                 $('#inp-description').val(post.description);
-                $('#btn-save').val(item.id);
+                $('#idDoc').val(item.id);
+                $('#btnPostE').removeClass('d-none');
+                $('#btnPostC').addClass('d-none');
+                $('#formModalLabel').html('Editar Post');
             })
+            editPost();
         })   
+    })
+}
+
+function editPost(){
+    $('#btnPostE').on('click', (e) => {
+        e.preventDefault();
+
+        fs.collection('posts').doc($('#idDoc').val()).update({
+            title: $('#inp-title').val(),
+            description: $('#inp-description').val()
+            //owner: auth.currentUser.uid,
+            //createdAt: new Date()
+        }).then(() => {
+            $('#post-form').trigger('reset');
+            $('#formModal').modal('hide');
+            $('.modal-backdrop.fade.show').addClass('d-none');
+            console.log('Publicación editada');
+            getPosts();
+        }).catch(error => {
+            console.log(error);
+        })
+
     })
 }
