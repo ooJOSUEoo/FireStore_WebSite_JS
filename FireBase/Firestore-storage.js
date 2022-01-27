@@ -66,10 +66,20 @@ function setPost() {
     if ($('#idDoc').val() == '') {
         $('#btnPostC').on('click', (e) => {
             e.preventDefault();
+            //subir imagen a storage
+            
+            const file = document.getElementById('inp-img').files[0];
+            const filePath = `images/${file.name}`;
+            storageRef.child(filePath).put(file).then(snapshot => {
+                console.log('Imagen subida');
+            }).catch(error => {console.log(error.message);})
 
+
+            //crear post en documento
             fs.collection('posts').add({
                 title: $('#inp-title').val(),
                 description: $('#inp-description').val(),
+                //img: ,
                 owner: auth.currentUser.uid,
                 createdAt: new Date()
             }).then(() => {
