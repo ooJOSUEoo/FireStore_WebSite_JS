@@ -240,7 +240,8 @@ function deletePost() {
             if (confirm('¿Estás seguro de eliminar esta publicación?')) {
                 console.log(idDoc);
                 fs.collection('posts').doc(idDoc).delete().then(() => {
-                    console.log('Publicación eliminada');
+                    alert('Publicación eliminada');
+                    storageRef.child(`images/${idDoc}`).delete().then(() => {}).catch(error => {showError(error)});
                     getPosts();
                 }).catch(error => {
                     console.log(error);
