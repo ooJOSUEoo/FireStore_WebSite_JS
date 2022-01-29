@@ -13,7 +13,7 @@ function getPosts() {
                 const li = `
                     <li class="list-group-item list-group-item-action position-relative" style="list-style: none;">
                         <div class="position-absolute end-0 me-3" style="z-index: 10">
-                            <button class="btn btn-danger btn-sm ms-auto" id="delete">
+                            <button class="btn btn-danger btn-sm ms-auto" id="delete" iddoc="${doc.id}">
                                 <i class="fa-regular fa-trash"></i>
                             </button>
                         </div>
@@ -57,6 +57,7 @@ function clickFormPost() {
         $('#idDoc').val('');
         $('#btnPostC').removeClass('d-none');
         $('#btnPostE').addClass('d-none');
+        $('#formModalLabel').html('Crear Post');
     });
     setPost();
 
@@ -69,11 +70,11 @@ function setPost() {
             $('#btnPostC').attr('disabled', true);
             //subir imagen a storage
             
-            /*const file = document.getElementById('inp-img').files[0];
+            const file = document.getElementById('inp-img').files[0];
             const filePath = `images/${file.name}`;
             storageRef.child(filePath).put(file).then(snapshot => {
                 console.log('Imagen subida');
-            }).catch(error => {console.log(error.message);})*/
+            }).catch(error => {console.log(error.message);})
 
 
             //crear post en documento
@@ -161,8 +162,13 @@ function editPost() {
 function deletePost() {
     document.querySelectorAll('#delete').forEach(item => {
         item.addEventListener('click', (e) => {
+            idDoc = ''
+            if (e.target.getAttribute('idDoc')) {
+                idDoc = e.target.getAttribute('idDoc');
+            }else{
+                idDoc = e.target.parentElement.getAttribute('idDoc');
+            }
             if (confirm('¿Estás seguro de eliminar esta publicación?')) {
-                const idDoc = e.target.parentElement.parentElement.children[1].id;
                 console.log(idDoc);
                 fs.collection('posts').doc(idDoc).delete().then(() => {
                     console.log('Publicación eliminada');
