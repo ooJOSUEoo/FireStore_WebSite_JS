@@ -67,39 +67,47 @@ function setPost() {
     if ($('#idDoc').val() == '') {
         $('#btnPostC').on('click', (e) => {
             e.preventDefault();
+            $('#progressPostform').width('40%');
             $('#btnPostC').attr('disabled', true);
-            //subir imagen a storage
+
+            //id del documento
+            idNewDoc = fs.collection('posts').doc().id;
             
-            const file = document.getElementById('inp-img').files[0];
-            const filePath = `images/${file.name}`;
-            storageRef.child(filePath).put(file).then(snapshot => {
-                console.log('Imagen subida');
-            }).catch(error => {console.log(error.message);})
+            console.log(idNewDoc);
+                //subir imagen a storage
+                const file = document.getElementById('inp-img').files[0];
+                const filePath = `images/${idNewDoc}`;
+                storageRef.child(filePath).put(file).then(async snapshot => {
+                    $('#progressPostform').width('60%');
 
+                    //obtener url de la imagen
+                    urlImg = await snapshot.ref.getDownloadURL();
+                    console.log(urlImg);
 
-            //crear post en documento
-            fs.collection('posts').add({
-                title: $('#inp-title').val(),
-                description: $('#inp-description').val(),
-                //img: ,
-                owner: auth.currentUser.uid,
-                createdAt: new Date()
-            }).then(() => {
-                $('#progressPostform').width('100%');
-                setTimeout(() => {
-                    $('#btnPostC').attr('disabled', false);
-                    //clear form
-                    $('#post-form').trigger('reset');
-                    $('#formModal').modal('hide');
-                    $('.modal-backdrop.fade.show').addClass('d-none');
-                    $('#progressPostform').width('0%');
-                }, 1000);
-                console.log('Publicación agregada');
-                getPosts();
-            }).catch(error => {
-                console.log(error);
-                showError(error)
-            })
+                    //subir datos a firestore
+                    fs.collection('posts').doc(idNewDoc).set({
+
+                        title: $('#inp-title').val(),
+                        description: $('#inp-description').val(),
+                        img: urlImg,
+                        owner: auth.currentUser.uid,
+                        createdAt: new Date()
+                    }).then(() => {
+                        
+                        $('#progressPostform').width('100%');
+                        setTimeout(() => {
+                            $('#btnPostC').attr('disabled', false);
+                            //clear form
+                            $('#post-form').trigger('reset');
+                            $('#formModal').modal('hide');
+                            $('.modal-backdrop.fade.show').addClass('d-none');
+                            $('#progressPostform').width('0%');
+                        }, 1000);
+                        console.log('Publicación agregada');
+                        getPosts();
+                    }).catch(error => { showError(error) })
+
+                }).catch(error => { showError(error) })
 
         })
     } else {}
@@ -124,6 +132,7 @@ function getPostID() {
             .catch(error => {
                 $('#errorModal').modal('show');
                 $('#erroDescrip').val(error.message);
+                showError(error) 
             })
         })
     })

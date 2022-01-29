@@ -3,4 +3,5 @@ function showError(error) {
     $('.modal-backdrop.fade.show').addClass('d-none');
     $('#errorModal').modal('show');
     $('#erroDescrip').html(error.message);
+    $('#progressPostform').width('0%');
 }
