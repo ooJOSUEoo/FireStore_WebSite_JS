@@ -82,6 +82,7 @@ function setPost() {
             uploadTask.on('state_changed', (snapshot) => {
                 const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
                 $('#progressPostform').width(progress + '%');
+                $('#progressPostform').html(progress + '%');
             }, (error) => {
                 console.log(error);
                 showError(error)
@@ -178,6 +179,49 @@ function editPost() {
                 showError(error)
             })
         } else {
+            //subir imagen a storage
+            const file = $('#inp-img').prop('files')[0];
+            const filePath = `images/${$('#idDoc').val()}`;
+            const uploadTask = storageRef.child(filePath).put(file)
+            uploadTask.on('state_changed', (snapshot) => {
+                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                $('#progressPostform').width(progress + '%');
+                $('#progressPostform').html(progress + '%');
+            }, (error) => {
+                console.log(error);
+                showError(error)
+            }, () => {
+                //obtener url de la imagen
+                uploadTask.snapshot.ref.getDownloadURL().then(url => {
+                    console.log(url);
+
+                    fs.collection('posts').doc($('#idDoc').val()).update({
+                        title: $('#inp-title').val(),
+                        description: $('#inp-description').val(),
+                        img: url,
+                        //owner: auth.currentUser.uid,
+                        //createdAt: new Date()
+                    }).then(() => {
+                        $('#progressPostform').width('100%');
+                        setTimeout(() => {
+                            $('#btnPostE').attr('disabled', false);
+                            //clear form
+                            $('#post-form').trigger('reset');
+                            $('#formModal').modal('hide');
+                            $('.modal-backdrop.fade.show').addClass('d-none');
+                            $('#progressPostform').width('0%');
+                        }, 1000);
+                        console.log('Publicación editada');
+                        getPosts();
+                    }).catch(error => {
+                        console.log(error);
+                        showError(error)
+                    })
+                }).catch(error => {
+                    console.log(error);
+                    showError(error)
+                });
+            })
 
         }
 
