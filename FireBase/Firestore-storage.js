@@ -69,57 +69,59 @@ function setPost() {
     if ($('#idDoc').val() == '') {
         $('#btnPostC').on('click', (e) => {
             e.preventDefault();
-            $('#btnPostC').attr('disabled', true);
+            if (validateFormPost()) {
+                $('#btnPostC').attr('disabled', true);
 
-            //id del documento
-            idNewDoc = fs.collection('posts').doc().id;
+                //id del documento
+                idNewDoc = fs.collection('posts').doc().id;
 
-            console.log(idNewDoc);
-            //subir imagen a storage
-            const file = $('#inp-img').prop('files')[0];
-            const filePath = `images/${idNewDoc}`;
-            const uploadTask = storageRef.child(filePath).put(file)
-            uploadTask.on('state_changed', (snapshot) => {
-                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                $('#progressPostform').width(progress + '%');
-                $('#progressPostform').html(progress + '%');
-            }, (error) => {
-                console.log(error);
-                showError(error)
-            }, () => {
-                //obtener url de la imagen
-                uploadTask.snapshot.ref.getDownloadURL().then(url => {
-                    console.log(url);
-
-                    //subir datos a firestore
-                    fs.collection('posts').doc(idNewDoc).set({
-
-                        title: $('#inp-title').val(),
-                        description: $('#inp-description').val(),
-                        img: url,
-                        owner: auth.currentUser.uid,
-                        createdAt: new Date()
-                    }).then(() => {
-
-                        setTimeout(() => {
-                            $('#btnPostC').attr('disabled', false);
-                            //clear form
-                            $('#post-form').trigger('reset');
-                            $('#formModal').modal('hide');
-                            $('.modal-backdrop.fade.show').addClass('d-none');
-                            $('#progressPostform').width('0%');
-                        }, 1000);
-                        console.log('Publicación agregada');
-                        getPosts();
-                    }).catch(error => {
-                        showError(error)
-                    })
-                }).catch(error => {
+                console.log(idNewDoc);
+                //subir imagen a storage
+                const file = $('#inp-img').prop('files')[0];
+                const filePath = `images/${idNewDoc}`;
+                const uploadTask = storageRef.child(filePath).put(file)
+                uploadTask.on('state_changed', (snapshot) => {
+                    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    $('#progressPostform').width(progress + '%');
+                    $('#progressPostform').html(progress.toFixed(0) + '%');
+                }, (error) => {
                     console.log(error);
                     showError(error)
-                });
+                }, () => {
+                    //obtener url de la imagen
+                    uploadTask.snapshot.ref.getDownloadURL().then(url => {
+                        console.log(url);
 
-            })
+                        //subir datos a firestore
+                        fs.collection('posts').doc(idNewDoc).set({
+
+                            title: $('#inp-title').val(),
+                            description: $('#inp-description').val(),
+                            img: url,
+                            owner: auth.currentUser.uid,
+                            createdAt: new Date()
+                        }).then(() => {
+
+                            setTimeout(() => {
+                                $('#btnPostC').attr('disabled', false);
+                                //clear form
+                                $('#post-form').trigger('reset');
+                                $('#formModal').modal('hide');
+                                $('.modal-backdrop.fade.show').addClass('d-none');
+                                $('#progressPostform').width('0%');
+                            }, 1000);
+                            console.log('Publicación agregada');
+                            getPosts();
+                        }).catch(error => {
+                            showError(error)
+                        })
+                    }).catch(error => {
+                        console.log(error);
+                        showError(error)
+                    });
+
+                })
+            }
         })
     }
 }
@@ -154,75 +156,77 @@ function getPostID() {
 function editPost() {
     $('#btnPostE').on('click', (e) => {
         e.preventDefault();
-        $('#btnPostE').attr('disabled', true);
+        if (validateFormPost(true)) {
+            $('#btnPostE').attr('disabled', true);
 
-        if ($('#inp-img').val() == '') {
-            fs.collection('posts').doc($('#idDoc').val()).update({
-                title: $('#inp-title').val(),
-                description: $('#inp-description').val()
-                //owner: auth.currentUser.uid,
-                //createdAt: new Date()
-            }).then(() => {
-                $('#progressPostform').width('100%');
-                setTimeout(() => {
-                    $('#btnPostE').attr('disabled', false);
-                    //clear form
-                    $('#post-form').trigger('reset');
-                    $('#formModal').modal('hide');
-                    $('.modal-backdrop.fade.show').addClass('d-none');
-                    $('#progressPostform').width('0%');
-                }, 1000);
-                console.log('Publicación editada');
-                getPosts();
-            }).catch(error => {
-                console.log(error);
-                showError(error)
-            })
-        } else {
-            //subir imagen a storage
-            const file = $('#inp-img').prop('files')[0];
-            const filePath = `images/${$('#idDoc').val()}`;
-            const uploadTask = storageRef.child(filePath).put(file)
-            uploadTask.on('state_changed', (snapshot) => {
-                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                $('#progressPostform').width(progress + '%');
-                $('#progressPostform').html(progress + '%');
-            }, (error) => {
-                console.log(error);
-                showError(error)
-            }, () => {
-                //obtener url de la imagen
-                uploadTask.snapshot.ref.getDownloadURL().then(url => {
-                    console.log(url);
-
-                    fs.collection('posts').doc($('#idDoc').val()).update({
-                        title: $('#inp-title').val(),
-                        description: $('#inp-description').val(),
-                        img: url,
-                        //owner: auth.currentUser.uid,
-                        //createdAt: new Date()
-                    }).then(() => {
-                        $('#progressPostform').width('100%');
-                        setTimeout(() => {
-                            $('#btnPostE').attr('disabled', false);
-                            //clear form
-                            $('#post-form').trigger('reset');
-                            $('#formModal').modal('hide');
-                            $('.modal-backdrop.fade.show').addClass('d-none');
-                            $('#progressPostform').width('0%');
-                        }, 1000);
-                        console.log('Publicación editada');
-                        getPosts();
-                    }).catch(error => {
-                        console.log(error);
-                        showError(error)
-                    })
+            if ($('#inp-img').val() == '') {
+                fs.collection('posts').doc($('#idDoc').val()).update({
+                    title: $('#inp-title').val(),
+                    description: $('#inp-description').val()
+                    //owner: auth.currentUser.uid,
+                    //createdAt: new Date()
+                }).then(() => {
+                    $('#progressPostform').width('100%');
+                    setTimeout(() => {
+                        $('#btnPostE').attr('disabled', false);
+                        //clear form
+                        $('#post-form').trigger('reset');
+                        $('#formModal').modal('hide');
+                        $('.modal-backdrop.fade.show').addClass('d-none');
+                        $('#progressPostform').width('0%');
+                    }, 1000);
+                    console.log('Publicación editada');
+                    getPosts();
                 }).catch(error => {
                     console.log(error);
                     showError(error)
-                });
-            })
+                })
+            } else {
+                //subir imagen a storage
+                const file = $('#inp-img').prop('files')[0];
+                const filePath = `images/${$('#idDoc').val()}`;
+                const uploadTask = storageRef.child(filePath).put(file)
+                uploadTask.on('state_changed', (snapshot) => {
+                    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    $('#progressPostform').width(progress + '%');
+                    $('#progressPostform').html(progress.toFixed(0) + '%');
+                }, (error) => {
+                    console.log(error);
+                    showError(error)
+                }, () => {
+                    //obtener url de la imagen
+                    uploadTask.snapshot.ref.getDownloadURL().then(url => {
+                        console.log(url);
 
+                        fs.collection('posts').doc($('#idDoc').val()).update({
+                            title: $('#inp-title').val(),
+                            description: $('#inp-description').val(),
+                            img: url,
+                            //owner: auth.currentUser.uid,
+                            //createdAt: new Date()
+                        }).then(() => {
+                            $('#progressPostform').width('100%');
+                            setTimeout(() => {
+                                $('#btnPostE').attr('disabled', false);
+                                //clear form
+                                $('#post-form').trigger('reset');
+                                $('#formModal').modal('hide');
+                                $('.modal-backdrop.fade.show').addClass('d-none');
+                                $('#progressPostform').width('0%');
+                            }, 1000);
+                            console.log('Publicación editada');
+                            getPosts();
+                        }).catch(error => {
+                            console.log(error);
+                            showError(error)
+                        })
+                    }).catch(error => {
+                        console.log(error);
+                        showError(error)
+                    });
+                })
+
+            }
         }
 
     })
@@ -241,7 +245,9 @@ function deletePost() {
                 console.log(idDoc);
                 fs.collection('posts').doc(idDoc).delete().then(() => {
                     alert('Publicación eliminada');
-                    storageRef.child(`images/${idDoc}`).delete().then(() => {}).catch(error => {showError(error)});
+                    storageRef.child(`images/${idDoc}`).delete().then(() => {}).catch(error => {
+                        showError(error)
+                    });
                     getPosts();
                 }).catch(error => {
                     console.log(error);
