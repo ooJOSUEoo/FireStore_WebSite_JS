@@ -20,6 +20,7 @@ function getPosts() {
                         <a id="${doc.id}" class="post" style="text-decoration:none; color:black; cursor:pointer; z-index: 5">
                             <div class="card card-body mb-3 border-0">
                                 <h4>${post.title}</h4>
+                                <img src="${post.img}" class="img-fluid w-50 h-50 ms-auto me-auto" alt="${post.title}">
                                 <small>${post.description}</small>
                             </div>
                         </a>
