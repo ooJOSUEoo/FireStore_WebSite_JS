@@ -43,3 +43,12 @@ function validateFormPost(edit){
         }
     }
 }
+
+document.getElementById('btn-collapse').addEventListener('click', function() {
+    if (document.getElementById('navbarNav').classList.contains('show')) {
+        document.getElementById('navbarNav').classList.remove('show');
+    } else {
+        document.getElementById('navbarNav').classList.add('show');
+    }
+});
+

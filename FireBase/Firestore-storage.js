@@ -11,7 +11,8 @@ function getPosts() {
             data.forEach(doc => {
                 const post = doc.data();
                 const li = `
-                    <li class="list-group-item list-group-item-action position-relative" style="list-style: none;">
+                    <li class="list-group-item list-group-item-action position-relative mb-1" 
+                    style="list-style: none; min-width: 295px; max-width: 90vh;">
                         <div class="position-absolute end-0 me-3" style="z-index: 10">
                             <button class="btn btn-danger btn-sm ms-auto" id="delete" iddoc="${doc.id}">
                                 <i class="fa-regular fa-trash"></i>
@@ -39,8 +40,15 @@ function getPosts() {
 
     auth.onAuthStateChanged(user => {
         if (user) {
-            fs.collection('posts').get().then(snapshot => {
+            //obtener datos de firestore y mostrarlos por el mas actual
+            fs.collection('posts').orderBy('createdAt', 'desc').onSnapshot(snapshot => {
+            //fs.collection('posts').get().then(snapshot => {
                     setupPosts(snapshot.docs);
+                    setTimeout(() => {
+                        //ponerle overflow-y: scroll al body
+                        $('body').css('overflow-y', 'scroll');
+                        $('body').css('overflow', 'auto');
+                    }, 2000);
                 })
                 .catch(error => {
                     console.log(error);

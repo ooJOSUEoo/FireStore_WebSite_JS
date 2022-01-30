@@ -14,8 +14,8 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
             <a class="navbar-brand" href="#">Firestore</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNa"
+                aria-controls="navbarNa" aria-expanded="false" aria-label="Toggle navigation" id="btn-collapse">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -46,11 +46,11 @@
 
     <!-- MAIN CONTEN -->
     <div class="container p-4">
-        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#formModal" id="addPost">
+        <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#formModal" id="addPost">
             <i class="fa-solid fa-plus"></i>
             Añadir nuevo post</button>
         <div class="row">
-            <div class="col-md-6 offset-md-3">
+            <div class="col-md-6 offset-md-3 p-0">
                 <ul class="list-group" id="posts">
 
                 </ul>
@@ -114,15 +114,17 @@
                         <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-secondary">LogIn</button>
                             <button type="button" class="btn btn-light d-flex border-dark border" id="googleLogin">
-                                <img width="5%" class="me-2"
+                                <!-- <img width="5%" class="me-2"
                                     src="https://storage.googleapis.com/support-kms-prod/ZAl1gIwyUsvfwxoW9ns47iJFioHXODBbIkrK"
-                                    alt="LogIn with Google">
+                                    alt="LogIn with Google"> -->
+                                <i class="fa-brands fa-google text-warning"></i>&nbsp;
                                 LogIn with Google
                             </button>
                             <button type="button" class="btn btn-primary d-flex border-dark border" id="facebookLogin">
-                                <img width="5%" class="me-2"
+                                <!-- <img width="5%" class="me-2"
                                     src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/1024px-Facebook_Logo_%282019%29.png"
-                                    alt="LogIn with Facebook">
+                                    alt="LogIn with Facebook"> -->
+                                <i class="fa-brands fa-facebook-f"></i>&nbsp;
                                 LogIn with Facebook
                             </button>
                         </div>
@@ -151,7 +153,7 @@
                             <label for="floatingInput">Titulo</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <textarea id="inp-description" class="form-control h-25" style="resize: none;" placeholder="-" required></textarea>
+                            <textarea id="inp-description" class="form-control h-50" style="resize: none; min-height: 130px;" placeholder="-" required></textarea>
                             <label for="floatingInput">Descripción</label>
                         </div>
                         <div class="mb-3">
@@ -186,7 +188,6 @@
             </div>
         </div>
     </div>
-
 
     <script src="js/jquery-3.6.0.min.js"></script>
     <script src="js/bootstrap.bundle.min.js"></script>
