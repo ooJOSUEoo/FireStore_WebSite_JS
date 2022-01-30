@@ -86,3 +86,34 @@ $('#inp-img').change(function(e){
         $('#btnPostE').attr('disabled', true);
     }else{$('#btnPostE').attr('disabled', false);}
 });
+
+//seePass
+seePassSignup();
+seePassLogin();
+
+function seePassSignup(){
+    $('#seePassSignup').on('click', function(e){
+        e.preventDefault();
+        console.log('click');
+        if($('#signup-password').attr('type') == 'password'){
+            $('#signup-password').attr('type', 'text');
+            $('#seePassSignup').html('<i class="fas fa-eye-slash"></i>');
+        }else{
+            $('#signup-password').attr('type', 'password');
+            $('#seePassSignup').html('<i class="fas fa-eye"></i>');
+        }
+    })
+}
+function seePassLogin(){
+    $('#seePassLogin').on('click', function(e){
+        e.preventDefault();
+        console.log('click');
+        if($('#login-password').attr('type') == 'password'){
+            $('#login-password').attr('type', 'text');
+            $('#seePassLogin').html('<i class="fas fa-eye-slash"></i>');
+        }else{
+            $('#login-password').attr('type', 'password');
+            $('#seePassLogin').html('<i class="fas fa-eye"></i>');
+        }
+    })
+}
