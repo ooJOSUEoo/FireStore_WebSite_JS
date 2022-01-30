@@ -68,6 +68,7 @@ function clickFormPost() {
         $('#btnPostE').addClass('d-none');
         $('#formModalLabel').html('Crear Post');
         $('#imgPost').addClass('d-none');
+        $('#infoImg').html('Seleccione una imagen');
     });
     setPost();
 
@@ -146,6 +147,7 @@ function getPostID() {
                     $('#inp-description').val(post.description);
                     $('#imgPost').removeClass('d-none');
                     $('#imgPost').attr('src', post.img);
+                    $('#infoImg').html('Seleccione una imagen nueva (obcional)');
                     $('#idDoc').val(item.id);
                     $('#btnPostE').removeClass('d-none');
                     $('#btnPostC').addClass('d-none');

@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/all.css">
+    <link rel="stylesheet" href="css/style.css">
     <title>Auth con FireBase</title>
 </head>
 
@@ -157,9 +158,16 @@
                             <label for="floatingInput">Descripción</label>
                         </div>
                         <div class="mb-3">
-                            <img src="" id="imgPost" class="w-25 h-25">
+                            <img src="" id="imgPost" class="w-25 h-25 mb-2">
                             <label for="formFile" class="form-label">Imagen del post</label>
-                            <input class="form-control" type="file" id="inp-img" accept="image/*" required>
+                            <div class="d-flex justify-content-around align-items-center">
+                                <div class="custom-input-file col-md-6 col-sm-6 col-xs-6 d-flex align-items-center justify-content-center">
+                                    <i class="fa-solid fa-image"></i>
+                                    <input type="file" id="inp-img" class="input-file" accept="image/*" required>
+                                    <p id="infoImg" class="my-0 mx-2">Seleccione una imagen</p>
+                                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                                </div>
+                            </div>
                         </div>
                         <input type="hidden" id="idDoc">
                         <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
